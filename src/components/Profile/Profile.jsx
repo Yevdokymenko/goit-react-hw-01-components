@@ -1,51 +1,59 @@
-import styles from './Profile.module.css';
-import PropTypes from 'prop-types';
+import { PropTypes } from 'prop-types';
+import {
+  ProfileContainer,
+  WrapDescription,
+  Img,
+  UserInfo,
+  List,
+  ListItem,
+  Quatity,
+} from 'components/Profile/Profile.styled';
 
-const Profile = ({ name, tag, location, avatar, stats }) => {
+export const Profile = ({
+  username,
+  tag,
+  location,
+  avatar,
+  stats: { followers, views, likes },
+}) => {
   return (
-    <div class={styles.profile}>
-      <div class={styles.description}>
-        <img src={avatar} alt="Аватар користувача" class={styles.avatar} />
-        <p class={styles.name}>{name}</p>
-        <p class={styles.tag}>@{tag}</p>
-        <p class={styles.location}>{location}</p>
-      </div>
-      <ul class={styles.stats}>
-        <li>
-          <span class={styles.label}>Followers</span>
-          <span class={styles.quantity}>{stats.followers}</span>
-        </li>
-        <li>
-          <span class={styles.label}>Views</span>
-          <span class={styles.quantity}>{stats.views}</span>
-        </li>
-        <li>
-          <span class={styles.label}>Likes</span>
-          <span class={styles.quantity}>{stats.likes}</span>
-        </li>
-      </ul>
-    </div>
+    <ProfileContainer>
+      <WrapDescription>
+        <Img src={avatar} alt="User avatar" className="avatar" />
+
+        <UserInfo>{username}</UserInfo>
+        <UserInfo>{tag}</UserInfo>
+        <UserInfo>{location}</UserInfo>
+      </WrapDescription>
+
+      <List>
+        <ListItem>
+          <span>Followers</span>
+          <Quatity>{followers}</Quatity>
+        </ListItem>
+
+        <ListItem>
+          <span>Views</span>
+          <Quatity>{views}</Quatity>
+        </ListItem>
+
+        <ListItem>
+          <span>Likes</span>
+          <Quatity>{likes}</Quatity>
+        </ListItem>
+      </List>
+    </ProfileContainer>
   );
 };
 
 Profile.propTypes = {
-  name: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
   tag: PropTypes.string.isRequired,
   location: PropTypes.string.isRequired,
   avatar: PropTypes.string.isRequired,
-  stats: PropTypes.object.isRequired,
+  stats: PropTypes.exact({
+    followers: PropTypes.number.isRequired,
+    views: PropTypes.number.isRequired,
+    likes: PropTypes.number.isRequired,
+  }),
 };
-
-Profile.defaultProps = {
-  name: 'User name',
-  tag: '@User tag',
-  location: 'User location',
-  avatar: 'https://www.flaticon.com/svg/static/icons/svg/3784/3784184.svg',
-  stats: {
-    followers: '0',
-    views: '0',
-    likes: '0',
-  },
-};
-
-export default Profile;
